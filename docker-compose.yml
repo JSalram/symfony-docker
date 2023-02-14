@@ -52,6 +52,9 @@ services:
             PMA_HOST: db
             PMA_PORT: 3306
             PMA_ARBITRARY: 1
+            MAX_EXECUTION_TIME: 259200
+            MEMORY_LIMIT: 1000M
+            UPLOAD_LIMIT: 750M
         restart: always
         ports:
             - 8081:80
