@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+    nginx:
+        build:
+            context: .
+            dockerfile: Dockerfile-nginx
+        container_name: nginx
+        volumes:
+            - ./symfony/:/var/www/symfony/
+        ports:
+            - 8000:80
+
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile-php
+        container_name: php
+        environment:
+            APP_ENV: dev
+        volumes:
+            - ./symfony/:/var/www/symfony/
+#        depends_on:
+#            - db
+
+    db:
+        image: mysql:5.7
+        container_name: db
+        command:
+            [
+                '--character-set-server=utf8mb4',
+                '--collation-server=utf8mb4_unicode_ci',
+                '--default-authentication-plugin=mysql_native_password'
+            ]
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: app_db
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_user_pass
+        ports:
+            - 3306:3306
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./mysql/database-name.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: pma
+        links:
+            - db
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - 8081:80
+
+volumes:
+    dbdata:

@@ -1,0 +1,4 @@
+## Ignore symfony content ##
+symfony/*
+symfony/.*
+!symfony/.gitkeep

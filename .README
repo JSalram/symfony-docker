@@ -1,0 +1,8 @@
+# Symfony Docker
+## Setup
+- Añadir en la carpeta mysql el fichero .sql del que se quiere crear una base de datos (cuyo nombre debe coincidir con el nombre de la base de datos que se necesita crear)
+- Modificar en docker-compose.yml el fichero **database-name.sql** por el nombre del .sql añadido
+- En el directorio **symfony**, clonamos el repositorio con el que queremos trabajar y actualizamos las dependencias
+- Ejecutar `docker compose up -d --build`
+
+**LISTO**, ya deberíamos poder ver el proyecto corriendo en nuestro [localhost:8000](http://127.0.0.1:8000)
