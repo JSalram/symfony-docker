@@ -27,8 +27,8 @@ function change_directory() {
 function clone_project() {
     echo "Introduce la url del proyecto que deseas clonar:"
     read git
-    if [[ ! -z "$git" ]]
-    \ && git clone "$git" ./symfony
+    if [[ ! -z "$git" ]] && \
+    git clone "$git" ./symfony
     then
         echo "Proyecto clonado con éxito."
     fi
@@ -71,7 +71,7 @@ function docker_compose_up() {
         printf "\n"
         
         read -p "¿Deseas importar la base de datos? (Y/n) " resp
-        if [[ "$resp" =~ y|Y|"" ]]
+        if [[ ! "$resp" =~ y|Y ]]
         then
             import_database
         fi
@@ -118,7 +118,7 @@ printf "\n"
 
 ## Levantamos los contenedores e importamos la base de datos ##
 read -p "El proyecto se encuentra preparado. ¿Deseas levantar los contenedores? (Y/n) " resp
-if [[ "$resp" =~ y|Y|"" ]]
+if [[ ! "$resp" =~ y|Y ]]
 then
     docker_compose_up
 fi
