@@ -16,3 +16,13 @@
 **IMPORTANTE:** Reemplazar **NOMBRE_BBDD** por el nombre de la **base de datos** (debe coincidir con el nombre del fichero **.sql**)
 - `docker exec -i db mysql -uroot -proot -e "CREATE DATABASE NOMBRE_BBDD;"` -> Crea la base de datos
 - `docker exec -i db mysql -uroot -proot NOMBRE_BBDD < ./mysql/NOMBRE_BBDD.sql` -> Importa la base de datos
+
+### Xdebug:
+Es necesario configurar Xdebug en IntelliJ / PHPStorm para poder hacer uso del mismo. Para ello, debemos hacer lo siguiente:
+- Con el proyecto abierto, vamos a hacer click en `Run > Start Listening for PHP Debug Connections`, y también en `Run > Break at first line in PHP scripts`
+- Una vez ambas opciones estén seleccionadas, debemos ir a nuestro localhost:8080 para comprobar que para el proceso
+- Al pararse el proceso, nos saldrá una ventana (si es la primera configuración), le damos click en **Aceptar**
+- Ya podemos parar la ejecución y desmarcar la opción de `Break at first line in PHP scripts`
+- Por último, debemos ir a `File > Settings > Languages & Frameworks > PHP > Debug > Servers` y, una vez ahí, añadir la ruta del directorio `src` con la ruta del docker: `/var/www/symfony/src`
+
+Listo, ya tenemos Xdebug configurado. Con la opción `Start Listening for PHP Debug Connections` activa, podemos marcar puntos de interrupción donde queramos debugar.

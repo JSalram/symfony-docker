@@ -1,5 +1,8 @@
 FROM php:7.4-fpm
 
+RUN pecl install xdebug-3.1.5
+COPY xdebug/90-xdebug.ini "${PHP_INI_DIR}/conf.d"
+
 RUN apt-get update && apt-get install -y
 
 RUN apt-get update && apt-get install -y \
@@ -16,5 +19,6 @@ RUN docker-php-ext-install \
     pdo pdo_mysql
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+
 COPY ./symfony/ /var/www/symfony
 WORKDIR /var/www/symfony/
