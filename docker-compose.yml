@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile-nginx
         container_name: nginx
         volumes:
-            - ./symfony/:/var/www/symfony/
+            - ./symfony/beyond-plus-frutasrosi-backend/:/var/www/symfony/
         ports:
             - 8080:80
 
@@ -21,7 +21,7 @@ services:
         environment:
             APP_ENV: dev
         volumes:
-            - ./symfony/:/var/www/symfony/
+            - ./symfony/beyond-plus-frutasrosi-backend/:/var/www/symfony/
 
     db:
         image: mysql:5.7
@@ -41,7 +41,6 @@ services:
             - 3306:3306
         volumes:
             - dbdata:/var/lib/mysql
-            - ./mysql/DATABASE_NAME.sql:/docker-entrypoint-initdb.d/schema.sql:ro
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin

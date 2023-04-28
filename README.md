@@ -1,28 +1,32 @@
 # Symfony Docker
+
 ## Setup
-- Añadir en la carpeta ***mysql*** el fichero .sql del que se quiere crear una base de datos.
-- Ejecutar el script ***init.sh*** con el comando `bash init.sh` para preparar el entorno docker de manera automática. 
-- ***Si al importar la base de datos aparecen errores, ejecutar los comandos de importación indicados en la lista de comandos*** 
-- Actualizar las dependencias del proyecto en la carpeta ***symfony***
 
-**¡LISTO!** Ya deberíamos poder ver el proyecto corriendo en nuestro [localhost:8080](http://127.0.0.1:8080)
+- Ejecutar el script **_init.sh_** con el comando `bash init.sh` para preparar el entorno docker de manera automática
+- _(Opcional)_ Añadir el fichero .sql con la base de datos en el directorio _mysql_, para así poder importarlo con el script `init.sh` o, en su defecto, el script `import_database.sh`
 
-#
+Con estos sencillos pasos ya deberíamos poder ver el proyecto corriendo en nuestro [localhost:8080](http://127.0.0.1:8080)
 
-## Lista de comandos
-### **Docker:**
-- `docker compose up -d --build` -> Construye y levanta los contenedores (el --build solo es necesario si se han hecho cambios en los ficheros de configuración)
-- `docker compose down` -> Para y elimina los contenedores (Necesario cuando cambiemos de un proyecto a otro, parando el que se encuentre activo)
-- `docker stop $(docker ps -a -q)` -> Para todos los contenedores indistintamente del proyecto
-- `docker rm $(docker ps -a -q)` -> Elimina todos los contedores indistintamente del proyecto (necesario si paramos todos los contenedores con el comando anterior)
+## Scripts
 
-### **Base de datos:**
-**IMPORTANTE:** Reemplazar **NOMBRE_BBDD** por el nombre de la **base de datos** (debe coincidir con el nombre del fichero **.sql**)
-- `docker exec -i db mysql -uroot -proot -e "CREATE DATABASE NOMBRE_BBDD;"` -> Crea la base de datos
-- `docker exec -i db mysql -uroot -proot NOMBRE_BBDD < ./mysql/NOMBRE_BBDD.sql` -> Importa la base de datos
+- **`init.sh`**: Se encarga de levantar un proyecto (nuevo o ya existente) llamando al resto de scripts. Se puede utilizar en cualquier momento
+- **`clone_project.sh`**: Clona un proyecto nuevo en el directorio de proyectos (_symfony_)
+- **`change_project.sh`**: Lista los proyectos existentes y te da a elegir, cambiando así pa configuración en los archivos de docker
+- **`start.sh`**: Levanta los contenedores y finaliza los anteriores (en caso de tener contenedores levantados)
+- **`import_databases.sh`**: Lista los ficheros sql de nuestro directorio _mysql_ e importa la base de datos seleccionada, además de añadir la conexión en el fichero de configuración del proyecto symfony (`.env.local`)
+- **`install_dependencies.sh`**: Instala las dependencias del proyecto activo en el momento
+- **`reset_docker.sh`**: Elimina todos los contenedores y solo se debe utilizar en caso de conflicto
 
-### **Xdebug:**
+## Rutas
+Todas las rutas se encuentran en localhost, pero dependiendo del puerto, accederemos a un contenedor u otro:
+- **[localhost:8080](http://127.0.0.1:8080)**: Conexión principal del proyecto. Es el puerto de Nginx, desde el cual se puede visualizar el mismo
+- **[localhost:8081](http://127.0.0.1:8081)**: PhpMyAdmin. Desde esta web podemos acceder al gestor de base de datos
+- **localhost:3306**: No es una ruta accesible. Aquí se encuentra la base de datos mysql y se puede utilizar para realizar conexiones (en ocasiones se deberá sustituir **localhost** por **db**, puesto que docker tiene una conexión interna donde especifica así la ruta)
+
+## Xdebug
+
 Es necesario configurar Xdebug en PHPStorm/IntelliJ para poder hacer uso del mismo. Para ello, debemos hacer lo siguiente:
+
 - Con el proyecto abierto, vamos a hacer click en `Run > Start Listening for PHP Debug Connections`, y también en `Run > Break at first line in PHP scripts`
 - Una vez ambas opciones estén seleccionadas, debemos ir a nuestro localhost:8080 y recargar la página para comprobar que para el proceso
 - Al pararse el proceso, nos saldrá una ventana (si es la primera configuración), le damos click en **Aceptar**
@@ -31,17 +35,25 @@ Es necesario configurar Xdebug en PHPStorm/IntelliJ para poder hacer uso del mis
 
 **Listo**, ya tenemos Xdebug configurado. Con la opción `Start Listening for PHP Debug Connections` activa, podemos marcar puntos de interrupción donde queramos debugar.
 
-#
+## Lista de comandos
+
+Solo necesitamos conocer dos comandos de docker (aunque con los scripts ya no es del todo necesario):
+
+- `docker compose up -d`: Levanta los contenedores del proyecto activo
+- `docker compose down`: Finaliza y elimina los contenedores activos
 
 ## Estructura
-En el proyecto tenemos varios ficheros de configuración de docker y scripts en bash (Linux) que realizan diversas funciones, así como carpetas con archivos de configuración para los distintos contenedores (cuya explicación no es necesaria).
 
-### **Scripts**
-- `init.sh` -> Se encarga de iniciar el docker si se trata de un proyecto nuevo (no inicializado)
-- `install_dependencies.sh` -> Se encarga de instalar las dependencias del proyecto symfony una vez ha sido inicializado (es llamado automáticamente desde el init.sh)
-- `reset_docker.sh` -> Se encarga de resetear los contenedores de docker en caso de que tengamos conflictos con algún otro proyecto
+### **Directorios**
 
-### **Ficheros de configuración**
-- `docker-compose.yml` -> Es el fichero main, se encarga de orquestrar los contenedores y contiene todos los parámetros necesarios
-- `Dockerfile-php` -> Fichero de configuración para el contenedor de PHP`
-- `Dockerfile-nginx` -> Fichero de configuración para el contenedor de Nginx`
+- **mysql**: Contiene los ficheros .sql para su posterior importación
+- **nginx**: Contiene el fichero de configuración de nginx
+- **scripts**: Contiene los scripts necesarios para automatizar el arranque del proyecto
+- **symfony**: Contiene los proyectos symfony
+- **xdebug**: Contiene el fichero de configuración de Xdebug
+
+### **Ficheros docker**
+
+- **`docker-compose.yml`**: Es el fichero principal, se encarga de orquestar los contenedores y contiene todos los parámetros necesarios
+- **`Dockerfile-php`**: Fichero de configuración para el contenedor de PHP`
+- **`Dockerfile-nginx`**: Fichero de configuración para el contenedor de Nginx`
