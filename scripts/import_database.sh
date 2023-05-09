@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Si ejecutamos el script desde la raiz, subimos un directorio ##
-if [[ ! "${PWD##*/}" =~ symfony-docker ]]; then
+if [[ "${PWD##*/}" =~ scripts ]]; then
     cd ..
 fi
 

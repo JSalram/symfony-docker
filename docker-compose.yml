@@ -7,7 +7,7 @@ services:
             dockerfile: Dockerfile-nginx
         container_name: nginx
         volumes:
-            - ./symfony/beyond-plus-frutasrosi-backend/:/var/www/symfony/
+            - ./symfony/projectName/:/var/www/symfony/
         ports:
             - 8080:80
 
@@ -21,7 +21,7 @@ services:
         environment:
             APP_ENV: dev
         volumes:
-            - ./symfony/beyond-plus-frutasrosi-backend/:/var/www/symfony/
+            - ./symfony/projectName/:/var/www/symfony/
 
     db:
         image: mysql:5.7

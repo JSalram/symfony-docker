@@ -20,5 +20,5 @@ RUN docker-php-ext-install \
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
-COPY ./symfony/beyond-plus-frutasrosi-backend/ /var/www/symfony/
+COPY ./symfony/projectName/ /var/www/symfony/
 WORKDIR /var/www/symfony/
