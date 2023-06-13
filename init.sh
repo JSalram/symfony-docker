@@ -20,6 +20,13 @@ printf "\n"
 source scripts/change_project.sh
 printf "\n"
 
+## Cambiamos la versión de PHP ##
+read -p "¿Deseas modificar la versión de PHP? (y/N) " resp
+if [[ "$resp" =~ y|Y ]]; then
+    source scripts/php_version.sh
+fi
+printf "\n"
+
 ## Levantamos los contenedores ##
 source scripts/start.sh
 printf "\n"
