@@ -1,6 +1,15 @@
 # Symfony Docker
 
-## Setup
+## Descarga
+
+**_No es necesario, pero sí recomendable_**
+
+Abrimos una terminal, la cual estará directamente en la ruta _/home/$nombreusuario_ nada más abrirla, y ejecutamos el siguiente comando:  
+`mkdir docker && git clone https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/symfony-docker docker`
+
+De esta forma tendremos nuestros proyectos de docker en /home/$nombreusuario/docker, de manera que tan solo tengamos que abrir la terminal y movernos a docker para realizar cualquier acción o ejecutar cualquier script.
+
+## Instalación
 
 - Ejecutar el script **_init.sh_** con el comando `bash init.sh` para preparar el entorno docker de manera automática
 - _(Opcional)_ Añadir el fichero .sql con la base de datos en el directorio _mysql_, para así poder importarlo con el script `init.sh` o, en su defecto, el script `import_database.sh`
@@ -18,7 +27,9 @@ Con estos sencillos pasos ya deberíamos poder ver el proyecto corriendo en nues
 - **`reset_docker.sh`**: Elimina todos los contenedores y solo se debe utilizar en caso de conflicto
 
 ## Rutas
+
 Todas las rutas se encuentran en localhost, pero dependiendo del puerto, accederemos a un contenedor u otro:
+
 - **[localhost:8080](http://127.0.0.1:8080)**: Conexión principal del proyecto. Es el puerto de Nginx, desde el cual se puede visualizar el mismo
 - **[localhost:8081](http://127.0.0.1:8081)**: PhpMyAdmin. Desde esta web podemos acceder al gestor de base de datos
 - **localhost:3306**: No es una ruta accesible. Aquí se encuentra la base de datos mysql y se puede utilizar para realizar conexiones (en ocasiones se deberá sustituir **localhost** por **db**, puesto que docker tiene una conexión interna donde especifica así la ruta)
