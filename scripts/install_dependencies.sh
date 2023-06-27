@@ -11,8 +11,8 @@ project=$(grep -oP "(?<=COPY $local_path).+(?=\\/ $container_path)" Dockerfile-p
 
 ## Instalamos las dependencias del proyecto ##
 cd "symfony/$project"
-sudo rm -rf composer.lock package-lock.json symfony.lock vendor node_modules
-composer install --ignore-platform-reqs
+rm -rf composer.lock package-lock.json symfony.lock vendor node_modules
+docker exec -t php composer install --ignore-platform-reqs
 npm install --legacy-peer-deps
 npm run build
 
