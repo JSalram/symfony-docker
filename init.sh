@@ -21,6 +21,8 @@ source scripts/change_project.sh
 printf "\n"
 
 ## Cambiamos la versión de PHP ##
+printf "Versión actual: PHP "
+sed -n "1p" Dockerfile-php | grep -Eo "[7-8]\.[0-9]"
 read -p "¿Deseas modificar la versión de PHP? (y/N) " resp
 if [[ "$resp" =~ y|Y ]]; then
     source scripts/php_version.sh
