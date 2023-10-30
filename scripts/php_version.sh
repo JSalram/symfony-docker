@@ -18,6 +18,8 @@ function switch_version() {
     fi
 }
 
+printf "Versión actual: PHP "
+sed -n "1p" Dockerfile-php | grep -Eo "[7-8]\.[0-9]"
 PS3="Selecciona la versión de PHP que deseas arrancar: "
 versions=("PHP 7.4" "PHP 8.2")
 select version in "${versions[@]}"; do
